@@ -2,6 +2,7 @@ package com.example.thando.buttonclickapp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,8 +15,6 @@ public class MainActivity extends AppCompatActivity {
     // We used to create the layout.
     private EditText userInput;
     private TextView textView;
-    private Button button;
-    private int numTimesClicked = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +22,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.button_click_activity);
 
         userInput = (EditText) findViewById(R.id.editText);
-        button = (Button) findViewById(R.id.button);
+        userInput.setText("");
+        // Local variable for the onCreate method
+        Button button = (Button) findViewById(R.id.button);
         textView = (TextView) findViewById(R.id.textView);
         textView.setText("");
+        textView.setMovementMethod(new ScrollingMovementMethod());
 
         View.OnClickListener ourOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numTimesClicked = numTimesClicked + 1;
-                String result = "\nThe button got tapped " + numTimesClicked + " time";
+                String result = userInput.getText().toString();
+                result = result + "\n";
                 textView.append(result);
+                // Clear text after the click is handled.
+                userInput.setText("");
             }
         };
-
         // This is to initialize our onClickLister to be attached to the OnClick listener.
         // This will handle the event when it happens.
         button.setOnClickListener(ourOnClickListener);
